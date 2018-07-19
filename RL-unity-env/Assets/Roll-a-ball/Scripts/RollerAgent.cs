@@ -7,6 +7,8 @@ public class RollerAgent : Agent {
 
     Rigidbody rbody;
 
+    const float plattformBounds = 5f;
+
 	void Start ()
     {
         rbody = GetComponent<Rigidbody>();
@@ -26,5 +28,24 @@ public class RollerAgent : Agent {
 
             target.position = new Vector3(Random.value * range - range / 2, 0.5f, Random.value * range - range / 2);
         }
+    }
+
+    public override void CollectObservations()
+    {
+        var relativePos = target.position - this.transform.position;
+
+        // Observe target position
+        AddVectorObs(relativePos.x / plattformBounds);
+        AddVectorObs(relativePos.y / plattformBounds);
+
+        // Observe agent distance to edges
+        AddVectorObs((this.transform.position.x + plattformBounds) / plattformBounds);
+        AddVectorObs((this.transform.position.x - plattformBounds) / plattformBounds);
+        AddVectorObs((this.transform.position.y + plattformBounds) / plattformBounds);
+        AddVectorObs((this.transform.position.y - plattformBounds) / plattformBounds);
+
+        // Observe agent velocity
+        AddVectorObs(rbody.velocity.x / plattformBounds);
+        AddVectorObs(rbody.velocity.y / plattformBounds);
     }
 }
