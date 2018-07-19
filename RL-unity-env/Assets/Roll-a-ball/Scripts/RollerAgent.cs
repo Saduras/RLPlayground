@@ -7,7 +7,7 @@ public class RollerAgent : Agent {
     public float speed = 6f;
 
     Rigidbody rbody;
-
+    float prevDist;
     const float plattformBounds = 5f;
 
 	void Start ()
@@ -54,5 +54,27 @@ public class RollerAgent : Agent {
     {
         var controlSignal = new Vector3(vectorAction[0], 0f, vectorAction[1]);
         rbody.AddForce(controlSignal * speed);
+
+        // Reward for reaching target
+        var distToTarget = Vector3.Distance(this.transform.position, target.position);
+        if(distToTarget < 1.42f) {
+            AddReward(1.0f);
+            Done();
+        }
+
+        // Getting closer to target
+        if(distToTarget < prevDist) {
+            AddReward(0.1f);
+        }
+        prevDist = distToTarget;
+
+        // Time penalty
+        AddReward(-0.05f);
+
+        // Death penalty
+        if(this.transform.position.y < -1.0) {
+            AddReward(-1.0f);
+            Done();
+        }
     }
 }
