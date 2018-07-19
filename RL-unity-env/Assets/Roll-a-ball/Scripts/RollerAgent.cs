@@ -4,6 +4,7 @@ using UnityEngine;
 public class RollerAgent : Agent {
 
     public Transform target;
+    public float speed = 6f;
 
     Rigidbody rbody;
 
@@ -47,5 +48,11 @@ public class RollerAgent : Agent {
         // Observe agent velocity
         AddVectorObs(rbody.velocity.x / plattformBounds);
         AddVectorObs(rbody.velocity.y / plattformBounds);
+    }
+
+    public override void AgentAction(float[] vectorAction, string textAction)
+    {
+        var controlSignal = new Vector3(vectorAction[0], 0f, vectorAction[1]);
+        rbody.AddForce(controlSignal * speed);
     }
 }
