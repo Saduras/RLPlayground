@@ -6,26 +6,31 @@ using UnityEngine;
 public class RollerEnvironmentSetup : MonoBehaviour {
 
     public Transform environmentPrototype;
-    public Vector3 offset = new Vector3(10, 0, 10);
+    public float offset = 10f;
     public int count = 1;
 
     [SerializeField, HideInInspector]
     Transform[] environments = new Transform[0];
 
-    private void Start()
-    {
-        this.gameObject.SetActive(!Application.isPlaying);
-    }
-
     void Update () {
+        if (Application.isPlaying) {
+            return;
+        }
+
 		if(count != environments.Length) {
             for (int i = 0; i < environments.Length; i++) {
                 DestroyImmediate(environments[i].gameObject);
             }
 
+            var gridSize = Mathf.CeilToInt(Mathf.Sqrt(count));
+
             environments = new Transform[count];
             for (int i = 0; i < count; i++) {
-                environments[i] = Instantiate(environmentPrototype, offset * (i + 1), Quaternion.identity);
+
+                var pos = new Vector3(i % gridSize, 0, i / gridSize) * offset;
+                environments[i] = Instantiate(environmentPrototype);
+                environments[i].transform.SetParent(this.transform);
+                environments[i].transform.localPosition = pos;
                 environments[i].name = "Environment " + i;
             }
         }
