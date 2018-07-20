@@ -3,23 +3,26 @@ using UnityEngine;
 
 public class RollerAgent : Agent {
 
+    const float plattformBounds = 5f;
+
     public Transform target;
     public float speed = 6f;
 
     Rigidbody rbody;
     float prevDist;
-    const float plattformBounds = 5f;
+    Vector3 center;
 
 	void Start ()
     {
         rbody = GetComponent<Rigidbody>();
+        center = this.transform.position - new Vector3(0, 0.5f, 0);
 	}
 
     public override void AgentReset()
     {
         if(this.transform.position.y < -1.0) {
             // The agent fell
-            this.transform.position = Vector3.zero;
+            this.transform.position = center;
             this.rbody.angularVelocity = Vector3.zero;
             this.rbody.velocity = Vector3.zero;
         }
@@ -27,7 +30,7 @@ public class RollerAgent : Agent {
             // Move target to new position
             var range = 8f;
 
-            target.position = new Vector3(Random.value * range - range / 2, 0.5f, Random.value * range - range / 2);
+            target.position = new Vector3(Random.value * range - range / 2, 0.5f, Random.value * range - range / 2) + center;
         }
     }
 
