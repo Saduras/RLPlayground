@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class RollerEnvironmentSetup : MonoBehaviour {
+public class EnvironmentCloner: MonoBehaviour {
 
     public Transform environmentPrototype;
     public float offset = 10f;
