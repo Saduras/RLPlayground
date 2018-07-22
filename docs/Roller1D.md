@@ -14,17 +14,32 @@ Additionally the environment rewards the agent for rolling towards the box by +0
 
 ## Training Config
 
-The agent was trained for 50.000 steps with the following config:
+The agent was trained for 50.000 steps with the default config:
 
 ```
-Roller1DBrain:
-    normalize: false
+default:
+    trainer: ppo
     batch_size: 1024
     beta: 5.0e-3
     buffer_size: 10240
+    epsilon: 0.2
+    gamma: 0.99
+    hidden_units: 128
+    lambd: 0.95
+    learning_rate: 3.0e-4
+    max_steps: 5.0e4
+    memory_size: 256
+    normalize: false
+    num_epoch: 3
+    num_layers: 2
+    time_horizon: 64
+    sequence_length: 64
+    summary_freq: 1000
+    use_recurrent: false
+    use_curiosity: false
+    curiosity_strength: 0.01
+    curiosity_enc_size: 128
 ```
-
-These values are copied from the BananaBrain example from Unity ML since this seems to be the closest.
 
 ## Result
 
