@@ -85,9 +85,9 @@ namespace Roller1D
                 Done();
             }
 
-            Monitor.Log("goals:", goalCounter.ToString());
-            Monitor.Log("deaths:", deathCounter.ToString());
-            Monitor.Log("cul. rewards:", GetCumulativeReward().ToString("F2"));
+            Monitor.Log("goals:", goalCounter.ToString(), this.transform);
+            Monitor.Log("deaths:", deathCounter.ToString(), this.transform);
+            Monitor.Log("cul. rewards:", GetCumulativeReward().ToString("F2"), this.transform);
         }
     }
 }
