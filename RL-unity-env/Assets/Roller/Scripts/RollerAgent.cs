@@ -15,6 +15,9 @@ namespace Roller
         float prevDist;
         Vector3 center;
 
+        int deathCounter;
+        int goalCounter;
+
         void Start()
         {
             rbody = GetComponent<Rigidbody>();
@@ -45,6 +48,8 @@ namespace Roller
             AddVectorObs(relativePos.x / plattformBounds);
             AddVectorObs(relativePos.y / plattformBounds);
 
+            Monitor.Log("d:", relativePos.magnitude / plattformBounds, target);
+
             // Observe agent distance to edges
             AddVectorObs((this.transform.position.x + plattformBounds) / plattformBounds);
             AddVectorObs((this.transform.position.x - plattformBounds) / plattformBounds);
@@ -54,6 +59,8 @@ namespace Roller
             // Observe agent velocity
             AddVectorObs(rbody.velocity.x / plattformBounds);
             AddVectorObs(rbody.velocity.y / plattformBounds);
+
+            Monitor.Log("v:", rbody.velocity.magnitude / plattformBounds, this.transform);
         }
 
         public override void AgentAction(float[] vectorAction, string textAction)
@@ -65,6 +72,7 @@ namespace Roller
             var distToTarget = Vector3.Distance(this.transform.position, target.position);
             if (distToTarget < 1.42f) {
                 AddReward(1.0f);
+                goalCounter++;
                 Done();
             }
 
@@ -80,8 +88,13 @@ namespace Roller
             // Death penalty
             if (this.transform.position.y < -1.0) {
                 AddReward(-1.0f);
+                deathCounter++;
                 Done();
             }
+
+            Monitor.Log("goal:", goalCounter.ToString(), this.transform);
+            Monitor.Log("death:", deathCounter.ToString(), this.transform);
+            Monitor.Log("cul.reward:", GetCumulativeReward().ToString("F2"), this.transform);
         }
     }
 }
