@@ -82,6 +82,9 @@ namespace Roller
             }
             prevDist = distToTarget;
 
+            // Time penalty
+            AddReward(-0.05f);
+
             // Death penalty
             if (this.transform.position.y < -1.0) {
                 AddReward(-1.0f);
