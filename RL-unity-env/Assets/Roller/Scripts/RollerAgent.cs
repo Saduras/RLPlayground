@@ -46,19 +46,19 @@ namespace Roller
 
             // Observe target position
             AddVectorObs(relativePos.x / plattformBounds);
-            AddVectorObs(relativePos.y / plattformBounds);
+            AddVectorObs(relativePos.z / plattformBounds);
 
             Monitor.Log("d:", relativePos.magnitude / plattformBounds, target);
 
             // Observe agent distance to edges
             AddVectorObs((this.transform.position.x + plattformBounds) / plattformBounds);
             AddVectorObs((this.transform.position.x - plattformBounds) / plattformBounds);
-            AddVectorObs((this.transform.position.y + plattformBounds) / plattformBounds);
-            AddVectorObs((this.transform.position.y - plattformBounds) / plattformBounds);
+            AddVectorObs((this.transform.position.z + plattformBounds) / plattformBounds);
+            AddVectorObs((this.transform.position.z - plattformBounds) / plattformBounds);
 
             // Observe agent velocity
             AddVectorObs(rbody.velocity.x / plattformBounds);
-            AddVectorObs(rbody.velocity.y / plattformBounds);
+            AddVectorObs(rbody.velocity.z / plattformBounds);
 
             Monitor.Log("v:", rbody.velocity.magnitude / plattformBounds, this.transform);
         }
