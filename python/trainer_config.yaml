@@ -22,10 +22,10 @@ default:
     curiosity_enc_size: 128
 
 RollerBrain:
-    normalize: false
-    batch_size: 1024
-    beta: 5.0e-3
-    buffer_size: 10240
+    max_steps: 5.0e5
+
+Roller1DBrain:
+    epsilon: 0.3
 
 BananaBrain:
     normalize: false
