@@ -78,7 +78,7 @@ namespace Roller
 
             // Getting closer to target
             if (distToTarget < prevDist) {
-                AddReward(0.1f);
+                AddReward(0.04f);
             }
             prevDist = distToTarget;
 
