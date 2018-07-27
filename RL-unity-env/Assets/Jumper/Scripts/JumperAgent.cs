@@ -2,9 +2,9 @@
 using MLAgents;
 using UnityEngine;
 
-namespace Runner
+namespace Jumper
 {
-    public class RunnerAgent : Agent
+    public class JumperAgent : Agent
     {
 
         public float observationDist = 10f;
@@ -12,14 +12,14 @@ namespace Runner
 
         Rigidbody rbody;
         Vector3 startPos;
-        RunnerAcademy academy;
+        JumperAcademy academy;
 
         void Start()
         {
             rbody = GetComponent<Rigidbody>();
             startPos = this.transform.position;
 
-            academy = FindObjectOfType<RunnerAcademy>();
+            academy = FindObjectOfType<JumperAcademy>();
         }
 
         public override void AgentReset()
@@ -53,15 +53,25 @@ namespace Runner
 
         public override void AgentAction(float[] vectorAction, string textAction)
         {
-            if (Vector3.Distance(startPos, this.transform.position) < 0.1f && rbody.velocity.sqrMagnitude < 0.1f) {
+            if (IsGrounded()) {
                 rbody.AddForce(Vector3.up * Mathf.Clamp01(vectorAction[0]) * jumpForce, ForceMode.Impulse);
             }
 
             // Time reward
             AddReward(0.001f);
 
+            // Idle reward while in air
+            if (vectorAction[0] < 0.01f && !IsGrounded()) {
+                AddReward(0.01f);
+            }
+
             Monitor.Log("cum. reward", GetCumulativeReward().ToString("F2"), this.transform);
             Monitor.Log("action", vectorAction[0], this.transform);
+        }
+
+        private bool IsGrounded()
+        {
+            return Vector3.Distance(startPos, this.transform.position) < 0.1f && rbody.velocity.sqrMagnitude < 0.1f;
         }
 
         private void OnTriggerEnter(Collider other)

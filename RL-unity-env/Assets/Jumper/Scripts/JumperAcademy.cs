@@ -1,9 +1,9 @@
 ﻿using MLAgents;
 using UnityEngine;
 
-namespace Runner
+namespace Jumper
 {
-    public class RunnerAcademy : Academy
+    public class JumperAcademy : Academy
     {
         public float obstacleSpeed = 3f;
         public Transform[] obstacles;
