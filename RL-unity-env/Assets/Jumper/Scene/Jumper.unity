@@ -444,10 +444,11 @@ MonoBehaviour:
     agentCameras: []
     maxStep: 0
     resetOnDone: 1
-    onDemandDecision: 0
+    onDemandDecision: 1
     numberOfActionsBetweenDecisions: 1
   observationDist: 10
   jumpForce: 7
+  framesPerDecision: 10
 --- !u!1 &919945812
 GameObject:
   m_ObjectHideFlags: 0

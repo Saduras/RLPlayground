@@ -31,6 +31,18 @@ namespace Jumper
             academy.AcademyReset();
         }
 
+        private void FixedUpdate()
+        {
+            if(IsGrounded()) {
+                RequestDecision();
+            }
+
+            // Time reward
+            AddReward(0.001f);
+
+            Monitor.Log("cum. reward", GetCumulativeReward().ToString("F2"), this.transform);
+        }
+
         public override void CollectObservations()
         {
             var obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
@@ -57,15 +69,6 @@ namespace Jumper
                 rbody.AddForce(Vector3.up * Mathf.Clamp01(vectorAction[0]) * jumpForce, ForceMode.Impulse);
             }
 
-            // Time reward
-            AddReward(0.001f);
-
-            // Idle reward while in air
-            if (vectorAction[0] < 0.01f && !IsGrounded()) {
-                AddReward(0.01f);
-            }
-
-            Monitor.Log("cum. reward", GetCumulativeReward().ToString("F2"), this.transform);
             Monitor.Log("action", vectorAction[0], this.transform);
         }
 
