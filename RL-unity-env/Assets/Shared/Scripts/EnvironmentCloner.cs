@@ -19,7 +19,9 @@ public class EnvironmentCloner: MonoBehaviour {
 
 		if(count != environments.Length) {
             for (int i = 0; i < environments.Length; i++) {
-                DestroyImmediate(environments[i].gameObject);
+                if (environments[i] != null) {
+                    DestroyImmediate(environments[i].gameObject);
+                }
             }
 
             var gridSize = Mathf.CeilToInt(Mathf.Sqrt(count));
